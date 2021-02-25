@@ -1,7 +1,11 @@
 package com.example.testmaxflashcards;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.wajahatkarim3.easyflipview.EasyFlipView;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -31,6 +36,8 @@ public class CardsActivity extends AppCompatActivity {
     CardStackView cardStackView;
     Gameplay gameplay = Gameplay.getInstance();
     TextView txtKnow, txtDontKnow;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,8 @@ public class CardsActivity extends AppCompatActivity {
             loadQuestions(selection);
         }
 
+        sharedPreferences = getSharedPreferences("scores", 0);
+        editor = sharedPreferences.edit();
 
         setContentView(R.layout.activity_cards);
 
@@ -93,7 +102,7 @@ public class CardsActivity extends AppCompatActivity {
 
             @Override
             public void onCardDisappeared(View view, int position) {
-
+                Log.e("adfa", "" + position);
             }
         });
 
@@ -101,10 +110,10 @@ public class CardsActivity extends AppCompatActivity {
         manager.setSwipeThreshold(0.5f);
         manager.setSwipeableMethod(SwipeableMethod.Manual);
         manager.setDirections(Direction.HORIZONTAL);
-//        manager.setCanScrollHorizontal(false);
-//        manager.setCanScrollVertical(false);
+        manager.setCanScrollHorizontal(false);
+        manager.setCanScrollVertical(false);
         cardStackView.setLayoutManager(manager);
-        CardStackAdapter cardStackAdapter = new CardStackAdapter(getApplicationContext(), cardStackView, populateFlashcards(), gameplay);
+        CardStackAdapter cardStackAdapter = new CardStackAdapter(getApplicationContext(), cardStackView, populateFlashcards(), gameplay, manager);
         cardStackView.setAdapter(cardStackAdapter);
 
 
@@ -113,9 +122,9 @@ public class CardsActivity extends AppCompatActivity {
 
     private ArrayList<FlashcardModel> populateFlashcards() {
         ArrayList<FlashcardModel> flashCards = new ArrayList<FlashcardModel>();
-        flashCards.add(new FlashcardModel("10", "A", "front_text_1", "backtext_1"));
-        flashCards.add(new FlashcardModel("11", "B", "front_text_2", "backtext_2"));
-        flashCards.add(new FlashcardModel("12", "A", "front_text_3", "backtext_3"));
+        flashCards.add(new FlashcardModel("10", "A", "", ""));
+        flashCards.add(new FlashcardModel("11", "B", "", ""));
+        flashCards.add(new FlashcardModel("12", "A", "", ""));
         return flashCards;
     }
 
@@ -143,7 +152,73 @@ public class CardsActivity extends AppCompatActivity {
                     allFlashcards.add(flashcardModel);
                 }
 
-                CardStackAdapter cardStackAdapter2 = new CardStackAdapter(this, cardStackView, allFlashcards, gameplay);
+                CardStackLayoutManager manager = new CardStackLayoutManager(getApplicationContext(), new CardStackListener() {
+                    @Override
+                    public void onCardDragging(Direction direction, float ratio) {
+
+                    }
+
+                    @Override
+                    public void onCardSwiped(Direction direction) {
+                        if(direction == Direction.Left) {
+                            gameplay.incrementDontKnow();
+                            txtDontKnow.setText("" + gameplay.getDontKnow());
+
+                        }
+                        else if(direction == Direction.Right) {
+                            gameplay.incrementKnow();
+                            txtKnow.setText("" + gameplay.getKnow());
+                        }
+
+                    }
+
+                    @Override
+                    public void onCardRewound() {
+
+                    }
+
+                    @Override
+                    public void onCardCanceled() {
+
+                    }
+
+                    @Override
+                    public void onCardAppeared(View view, int position) {
+                        ConstraintLayout constraintLayout = (ConstraintLayout) view;
+                        EasyFlipView easyFlipView = (EasyFlipView) ((ConstraintLayout) view).getChildAt(0);
+                        if(easyFlipView.isFrontSide()) {
+                            Log.e("front view", "aefadf");
+                        }
+                        else if(easyFlipView.isBackSide()) {
+                            Log.e("back view", "aefadf");
+                        }
+                    }
+
+                    @Override
+                    public void onCardDisappeared(View view, int position) {
+                        Log.e("adfa", "" + position);
+                        if(position == allFlashcards.size()-1) {
+                            gameplay.recordScore(sharedPreferences, editor);
+                            gameplay.endGame();
+
+                            Intent finishedPlaying = new Intent(view.getContext(), FinishedPlayingActivity.class);
+                            // put extras to intent?
+                            view.getContext().startActivity(finishedPlaying);
+                            Activity currentActivity = (Activity) view.getContext();
+                            currentActivity.finish();
+                        }
+                    }
+                });
+
+                manager.setStackFrom(StackFrom.Top);
+                manager.setSwipeThreshold(0.5f);
+                manager.setSwipeableMethod(SwipeableMethod.Manual);
+                manager.setDirections(Direction.HORIZONTAL);
+//                manager.setCanScrollHorizontal(false);
+//                manager.setCanScrollVertical(false);
+                cardStackView.setLayoutManager(manager);
+
+                CardStackAdapter cardStackAdapter2 = new CardStackAdapter(this, cardStackView, allFlashcards, gameplay, manager);
                 cardStackView.setAdapter(cardStackAdapter2);
                 cardStackAdapter2.notifyDataSetChanged();
 

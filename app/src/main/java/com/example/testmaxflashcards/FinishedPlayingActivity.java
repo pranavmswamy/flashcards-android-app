@@ -25,7 +25,10 @@ public class FinishedPlayingActivity extends AppCompatActivity {
         Gameplay gameplay = Gameplay.getInstance();
         scores = gameplay.getScores(sharedPreferences);
 
-        TextView dispScore = findViewById(R.id.txtPrevScores);
+        TextView dispScore = findViewById(R.id.dispScore);
+        TextView currentScore = findViewById(R.id.currentScore);
+
+        currentScore.setText(scores.get(0));
 
         String scores_text = "";
         for (String s: scores) {
