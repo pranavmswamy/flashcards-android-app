@@ -28,6 +28,7 @@ public class ChooseActivity extends AppCompatActivity {
                 Intent cardsIntent = new Intent(v.getContext(), CardsActivity.class);
                 cardsIntent.putExtra("selection", "ALL");
                 v.getContext().startActivity(cardsIntent);
+                finish();
             }
         });
 

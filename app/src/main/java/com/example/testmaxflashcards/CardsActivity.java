@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,10 +29,13 @@ import java.util.ArrayList;
 public class CardsActivity extends AppCompatActivity {
 
     CardStackView cardStackView;
+    Gameplay gameplay = Gameplay.getInstance();
+    TextView txtKnow, txtDontKnow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         // setContentView loading image
 
@@ -44,8 +48,15 @@ public class CardsActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_cards);
+
+        txtKnow = findViewById(R.id.txtCorrect);
+        txtDontKnow = findViewById(R.id.txtWrong);
+
+        txtKnow.setText("0");
+        txtDontKnow.setText("0");
+
         cardStackView = findViewById(R.id.cardStackView);
-        CardStackLayoutManager manager = new CardStackLayoutManager(this, new CardStackListener() {
+        CardStackLayoutManager manager = new CardStackLayoutManager(getApplicationContext(), new CardStackListener() {
             @Override
             public void onCardDragging(Direction direction, float ratio) {
 
@@ -53,6 +64,15 @@ public class CardsActivity extends AppCompatActivity {
 
             @Override
             public void onCardSwiped(Direction direction) {
+                if(direction == Direction.Left) {
+                    gameplay.incrementDontKnow();
+                    txtDontKnow.setText("" + gameplay.getDontKnow());
+
+                }
+                else if(direction == Direction.Right) {
+                    gameplay.incrementKnow();
+                    txtKnow.setText("" + gameplay.getKnow());
+                }
 
             }
 
@@ -78,12 +98,13 @@ public class CardsActivity extends AppCompatActivity {
         });
 
         manager.setStackFrom(StackFrom.Top);
-        manager.setSwipeThreshold(0.9f);
-        manager.setSwipeableMethod(SwipeableMethod.Automatic);
+        manager.setSwipeThreshold(0.5f);
+        manager.setSwipeableMethod(SwipeableMethod.Manual);
+        manager.setDirections(Direction.HORIZONTAL);
 //        manager.setCanScrollHorizontal(false);
 //        manager.setCanScrollVertical(false);
         cardStackView.setLayoutManager(manager);
-        CardStackAdapter cardStackAdapter = new CardStackAdapter(cardStackView, populateFlashcards());
+        CardStackAdapter cardStackAdapter = new CardStackAdapter(getApplicationContext(), cardStackView, populateFlashcards(), gameplay);
         cardStackView.setAdapter(cardStackAdapter);
 
 
@@ -122,10 +143,11 @@ public class CardsActivity extends AppCompatActivity {
                     allFlashcards.add(flashcardModel);
                 }
 
-                CardStackAdapter cardStackAdapter2 = new CardStackAdapter(cardStackView, allFlashcards);
+                CardStackAdapter cardStackAdapter2 = new CardStackAdapter(this, cardStackView, allFlashcards, gameplay);
                 cardStackView.setAdapter(cardStackAdapter2);
                 cardStackAdapter2.notifyDataSetChanged();
 
+                gameplay.startGame();
 
             } catch (JSONException e) {
                 e.printStackTrace();

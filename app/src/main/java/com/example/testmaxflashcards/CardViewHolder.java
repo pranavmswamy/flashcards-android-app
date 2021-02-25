@@ -25,13 +25,21 @@ public class CardViewHolder extends RecyclerView.ViewHolder {
         btnYes = easyFlipView.findViewById(R.id.btnYes);
         btnFlip = easyFlipView.findViewById(R.id.btnFlip);
 
-        btnFlip.setOnClickListener(new View.OnClickListener() {
+        easyFlipView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 easyFlipView.flipTheView();
                 Log.e("Flipping the view", "flipping the view");
             }
         });
+
+//        btnFlip.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                easyFlipView.flipTheView();
+//                Log.e("Flipping the view", "flipping the view");
+//            }
+//        });
 
     }
 
