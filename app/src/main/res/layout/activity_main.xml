@@ -8,14 +8,14 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btnPlay"
+        android:id="@+id/btnLearn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
         android:padding="20dp"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
-        android:text="LEARN"
+        android:text="LEARN NOW"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
         android:layout_marginTop="72dp"
         android:fontFamily="sans-serif-condensed"
         android:text="FLASHCARDS"
-        android:textColor="@color/main_bg"
+        android:textColor="@color/white"
         android:textSize="52sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,12 +55,28 @@
         android:text="By TestMaxPrep"
         android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnPlay"
+        app:layout_constraintBottom_toTopOf="@+id/btnLearn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtSlogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Your Pace. Your Place. Your Future."
+        android:textColor="@color/main_bg"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnLearn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.856" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,16 @@ package com.example.testmaxflashcards;
 
 public class FlashcardModel {
 
+    /**
+     * Data Model to hold data about each flashcard.
+     *
+     * Member variables:
+     * id - id of the flashcard
+     * category - category of the flashcard
+     * front_text - front displaying text of the flashcard
+     * back_text - back displaying text of the flashcard
+     */
+
     private String id;
     private String category;
     private String front_text;

@@ -8,26 +8,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.yuyakaido.android.cardstackview.CardStackView;
-
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Disable Night Mode for Development
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnPlay = findViewById(R.id.btnPlay);
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent chooseIntent = new Intent(v.getContext(), ChooseActivity.class);
-                v.getContext().startActivity(chooseIntent);
-            }
+        // Attach click listener to LEARN NOW button.
+        Button btnLearn = findViewById(R.id.btnLearn);
+        btnLearn.setOnClickListener(v -> {
+            Intent chooseIntent = new Intent(v.getContext(), ChooseActivity.class);
+            v.getContext().startActivity(chooseIntent);
+            finish();
         });
 
     }

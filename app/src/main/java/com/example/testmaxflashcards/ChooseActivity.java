@@ -8,7 +8,15 @@ import android.view.View;
 import android.widget.Button;
 
 public class ChooseActivity extends AppCompatActivity {
-
+    /**
+     * Choose Activity - called from MainActivity.
+     *
+     * Member Variables:
+     * btnAll - Button for choosing ALL flashcards
+     * btnSN - Button for choosing SUFFICIENT & NECESSARY CONDITIONS flashcards
+     * btnIdQ - Button for choosing IDENTIFY THE QUESTION TYPE flashcards
+     *
+     */
     private Button btnAll;
     private Button btnSN;
     private Button btnIdQ;
@@ -22,32 +30,33 @@ public class ChooseActivity extends AppCompatActivity {
         btnSN = findViewById(R.id.btnSN);
         btnIdQ = findViewById(R.id.btnIdQ);
 
-        btnAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardsIntent = new Intent(v.getContext(), CardsActivity.class);
-                cardsIntent.putExtra("selection", "ALL");
-                v.getContext().startActivity(cardsIntent);
-                finish();
-            }
+        /**
+         * Code for Categories -
+         * ALL - 'ALL'
+         * SUFFICIENT & NECESSARY CONDITIONS - 'SN'
+         * IDENTIFY THE QUESTION TYPE - 'IDQ'
+         */
+
+
+        // Attach onclick listener to ALL button
+        btnAll.setOnClickListener(v -> {
+            Intent cardsIntent = new Intent(v.getContext(), CardsActivity.class);
+            cardsIntent.putExtra("selection", "ALL");
+            v.getContext().startActivity(cardsIntent);
         });
 
-        btnSN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardsIntent = new Intent(v.getContext(), CardsActivity.class);
-                cardsIntent.putExtra("selection", "SN");
-                v.getContext().startActivity(cardsIntent);
-            }
+        // Attach onclick listener to SUFFICIENT & NECESSARY CONDITIONS button
+        btnSN.setOnClickListener(v -> {
+            Intent cardsIntent = new Intent(v.getContext(), CardsActivity.class);
+            cardsIntent.putExtra("selection", "SN");
+            v.getContext().startActivity(cardsIntent);
         });
 
-        btnIdQ.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardsIntent = new Intent(v.getContext(), CardsActivity.class);
-                cardsIntent.putExtra("selection", "IDQ");
-                v.getContext().startActivity(cardsIntent);
-            }
+        // Attach onclick listener to IDENTIFY THE QUESTION TYPE button
+        btnIdQ.setOnClickListener(v -> {
+            Intent cardsIntent = new Intent(v.getContext(), CardsActivity.class);
+            cardsIntent.putExtra("selection", "IDQ");
+            v.getContext().startActivity(cardsIntent);
         });
     }
 }

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -34,19 +35,26 @@ import java.util.ArrayList;
 public class CardsActivity extends AppCompatActivity {
 
     CardStackView cardStackView;
-    Gameplay gameplay = Gameplay.getInstance();
+    Gameplay gameplay;
     private TextView txtKnow, txtDontKnow;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    ConstraintLayout cardsLayout, loadingLayout;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_cards);
+        cardsLayout = findViewById(R.id.cardsConstraintLayout);
+        loadingLayout = findViewById(R.id.loadingConstraintLayout);
+        progressBar = findViewById(R.id.progressBar);
 
-        // setContentView loading image
+        cardsLayout.setVisibility(View.GONE);
+        loadingLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
-        // collect from intent,
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             String selection = (String) bundle.get("selection");
@@ -56,12 +64,13 @@ public class CardsActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("scores", 0);
         editor = sharedPreferences.edit();
 
-        setContentView(R.layout.activity_cards);
 
         txtKnow = findViewById(R.id.txtCorrect);
         txtDontKnow = findViewById(R.id.txtWrong);
         txtKnow.setText("0");
         txtDontKnow.setText("0");
+
+        gameplay = Gameplay.getInstance();
 
         cardStackView = findViewById(R.id.cardStackView);
 
@@ -197,7 +206,12 @@ public class CardsActivity extends AppCompatActivity {
                 cardStackView.setAdapter(flashcardAdapter);
                 flashcardAdapter.notifyDataSetChanged();
 
-                gameplay.startGame();
+                gameplay.startGame(selection);
+
+                progressBar.setVisibility(View.GONE);
+                loadingLayout.setVisibility(View.GONE);
+                cardsLayout.setVisibility(View.VISIBLE);
+
 
             } catch (JSONException e) {
                 Log.e("loadQuestions()", "JSON Parse Error");

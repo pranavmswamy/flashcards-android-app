@@ -11,4 +11,5 @@
     <color name="muted_red">#80EA430F</color>
     <color name="main_bg"> #397ec1 </color>
     <color name="muted_main_bg"> #80397ec1 </color>
+    <color name="muted_main_bg_not_transparent">#93B9DE</color>
 </resources>

@@ -8,6 +8,7 @@ public class Gameplay {
     private static Gameplay singleton;
     private int know = 0;
     private int dontKnow = 0;
+    private String selection;
 
     public static Gameplay getInstance() {
         if(singleton == null) {
@@ -16,7 +17,8 @@ public class Gameplay {
         return singleton;
     }
 
-    public void startGame() {
+    public void startGame(String selection) {
+        this.selection = selection;
         know = 0;
         dontKnow = 0;
     }
@@ -48,7 +50,18 @@ public class Gameplay {
             i++;
         }
 
-        editor.putString("score" + i, know + "/" + (know + dontKnow));
+        String gameSelection = "-";
+        if (selection.equals("IDQ")) {
+            gameSelection = "IDENTIFY THE QUESTION TYPE";
+        }
+        else if (selection.equals("SN")) {
+            gameSelection = "SUFFICIENT & NECESSARY CONDITIONS";
+        }
+        else {
+            gameSelection = "ALL";
+        }
+
+        editor.putString("score" + i, gameSelection + ": " + know + "/" + (know + dontKnow));
         editor.putInt("last_score_idx", i);
         editor.commit();
     }
@@ -61,7 +74,7 @@ public class Gameplay {
             return scores;
         }
 
-        int limit = 5;
+        int limit = 6;
         for(int i = last_score_idx; i>= 0; i--) {
             String score = sharedPreferences.getString("score" + i, "N/A");
             if (score != "N/A") {

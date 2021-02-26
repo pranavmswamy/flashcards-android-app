@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
+import com.yuyakaido.android.cardstackview.Duration;
+import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     ArrayList<FlashcardModel> flashcards = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    SwipeAnimationSetting swipeRightAnimationSetting, swipeLeftAnimationSetting;
 
     public CardStackAdapter(Context appContext, CardStackView cardStackView, ArrayList<FlashcardModel> flashcards, Gameplay gameplay, CardStackLayoutManager manager) {
         this.appContext = appContext;
@@ -38,6 +42,19 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         sharedPreferences = appContext.getSharedPreferences("scores", 0);
         editor = sharedPreferences.edit();
         this.manager = manager;
+
+        swipeRightAnimationSetting = new SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(new AccelerateInterpolator())
+                .build();
+
+        swipeLeftAnimationSetting = new SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Left)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(new AccelerateInterpolator())
+                .build();
+
     }
 
     @NonNull
@@ -76,6 +93,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     currentActivity.finish();
                 }
                 else {
+                    manager.setSwipeAnimationSetting(swipeRightAnimationSetting);
                     cardStackView.swipe();
                 }
 
@@ -102,6 +120,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     currentActivity.finish();
                 }
                 else {
+                    manager.setSwipeAnimationSetting(swipeLeftAnimationSetting);
                     cardStackView.swipe();
                 }
             }

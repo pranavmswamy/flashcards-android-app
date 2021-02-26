@@ -27,11 +27,14 @@ public class FinishedPlayingActivity extends AppCompatActivity {
 
         TextView dispScore = findViewById(R.id.dispScore);
         TextView currentScore = findViewById(R.id.currentScore);
+        TextView gameSelection = findViewById(R.id.txtGameSelection);
 
-        currentScore.setText(scores.get(0));
+        String[] currentGameScore = scores.get(0).split(":");
+        currentScore.setText(currentGameScore[1].trim());
+        gameSelection.setText(currentGameScore[0].trim());
 
         String scores_text = "";
-        for (String s: scores) {
+        for (String s: scores.subList(1, scores.size())) {
             scores_text += s + "\n\n";
         }
 
