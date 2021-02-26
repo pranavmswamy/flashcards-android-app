@@ -8,12 +8,15 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackView;
+import com.yuyakaido.android.cardstackview.Direction;
 
 import java.util.ArrayList;
 
@@ -41,7 +44,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View cardView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
-        CardViewHolder cardViewHolder = new CardViewHolder(cardView, manager);
+        CardViewHolder cardViewHolder = new CardViewHolder(cardView, manager, gameplay);
         return cardViewHolder;
     }
 
@@ -50,6 +53,59 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         CardViewHolder cardViewHolder = (CardViewHolder) holder;
         cardViewHolder.front_text.setText(flashcards.get(position).getFront_text());
         cardViewHolder.back_text.setText(Html.fromHtml(flashcards.get(position).getBack_text(), Html.FROM_HTML_MODE_LEGACY));
+//        TextView txtKnow = ((View) cardViewHolder.itemView.getParent().getParent()).findViewById(R.id.txtCorrect);
+//        TextView txtDontKnow = ((View)cardViewHolder.itemView.getParent().getParent()).findViewById(R.id.txtWrong);
+//
+        cardViewHolder.btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameplay.incrementKnow();
+                //cardViewHolder.txtKnow.setText("" + gameplay.getKnow());
+
+                CardsActivity cardsActivity = (CardsActivity) appContext;
+                cardsActivity.setTxtKnow("" + gameplay.getKnow());
+
+                if(position == flashcards.size()-1) {
+                    gameplay.recordScore(sharedPreferences, editor);
+                    gameplay.endGame();
+
+                    Intent finishedPlaying = new Intent(cardViewHolder.itemView.getContext(), FinishedPlayingActivity.class);
+                    // put extras to intent?
+                    cardViewHolder.itemView.getContext().startActivity(finishedPlaying);
+                    Activity currentActivity = (Activity) cardViewHolder.itemView.getContext();
+                    currentActivity.finish();
+                }
+                else {
+                    cardStackView.swipe();
+                }
+
+            }
+        });
+
+        cardViewHolder.btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gameplay.incrementDontKnow();
+                //cardViewHolder.txtDontKnow.setText("" + gameplay.getDontKnow());
+
+                CardsActivity cardsActivity = (CardsActivity) appContext;
+                cardsActivity.setTxtDontKnow("" + gameplay.getDontKnow());
+
+                if(position == flashcards.size()-1) {
+                    gameplay.recordScore(sharedPreferences, editor);
+                    gameplay.endGame();
+
+                    Intent finishedPlaying = new Intent(cardViewHolder.itemView.getContext(), FinishedPlayingActivity.class);
+                    // put extras to intent?
+                    cardViewHolder.itemView.getContext().startActivity(finishedPlaying);
+                    Activity currentActivity = (Activity) cardViewHolder.itemView.getContext();
+                    currentActivity.finish();
+                }
+                else {
+                    cardStackView.swipe();
+                }
+            }
+        });
     }
 
     @Override

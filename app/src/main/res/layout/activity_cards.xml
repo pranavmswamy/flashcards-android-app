@@ -11,7 +11,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/main_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +23,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="TextView"
-            android:textColor="@color/design_default_color_error"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="TextView"
-            android:textColor="@android:color/holo_green_dark"
+            android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
         android:id="@+id/cardStackView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/main_bg"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -62,62 +62,62 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/main_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="0dp">
 
-        <TextView
-            android:id="@+id/txtSwipeLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="DON'T KNOW IT?"
-            android:textColor="@color/material_on_surface_disabled"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:typeface="sans"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!--    <TextView
+                 android:id="@+id/txtSwipeLeft"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginStart="16dp"
+                 android:layout_marginTop="16dp"
+                 android:text="DON'T KNOW IT?"
+                 android:textColor="@color/material_on_surface_disabled"
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 android:typeface="sans"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtSwipeRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="KNOW IT?"
-            android:textAlignment="textEnd"
-            android:textColor="@color/material_on_surface_disabled"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+             <TextView
+                 android:id="@+id/txtSwipeRight"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="16dp"
+                 android:layout_marginEnd="16dp"
+                 android:text="KNOW IT?"
+                 android:textAlignment="textEnd"
+                 android:textColor="@color/material_on_surface_disabled"
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="SWIPE LEFT"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtSwipeLeft" />
+             <TextView
+                 android:id="@+id/textView8"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginStart="16dp"
+                 android:text="SWIPE LEFT"
+                 android:textColor="@android:color/holo_red_dark"
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toBottomOf="@+id/txtSwipeLeft" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="SWIPE RIGHT"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/holo_green_dark"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtSwipeRight" />
+             <TextView
+                 android:id="@+id/textView9"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginEnd="16dp"
+                 android:text="SWIPE RIGHT"
+                 android:textAlignment="textEnd"
+                 android:textColor="@android:color/holo_green_dark"
+                 android:textSize="18sp"
+                 android:textStyle="bold"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toBottomOf="@+id/txtSwipeRight" /> -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

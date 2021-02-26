@@ -35,7 +35,7 @@ public class CardsActivity extends AppCompatActivity {
 
     CardStackView cardStackView;
     Gameplay gameplay = Gameplay.getInstance();
-    TextView txtKnow, txtDontKnow;
+    private TextView txtKnow, txtDontKnow;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -60,11 +60,11 @@ public class CardsActivity extends AppCompatActivity {
 
         txtKnow = findViewById(R.id.txtCorrect);
         txtDontKnow = findViewById(R.id.txtWrong);
-
         txtKnow.setText("0");
         txtDontKnow.setText("0");
 
         cardStackView = findViewById(R.id.cardStackView);
+
         CardStackLayoutManager manager = new CardStackLayoutManager(getApplicationContext(), new CardStackListener() {
             @Override
             public void onCardDragging(Direction direction, float ratio) {
@@ -73,15 +73,6 @@ public class CardsActivity extends AppCompatActivity {
 
             @Override
             public void onCardSwiped(Direction direction) {
-                if(direction == Direction.Left) {
-                    gameplay.incrementDontKnow();
-                    txtDontKnow.setText("" + gameplay.getDontKnow());
-
-                }
-                else if(direction == Direction.Right) {
-                    gameplay.incrementKnow();
-                    txtKnow.setText("" + gameplay.getKnow());
-                }
 
             }
 
@@ -102,29 +93,37 @@ public class CardsActivity extends AppCompatActivity {
 
             @Override
             public void onCardDisappeared(View view, int position) {
-                Log.e("adfa", "" + position);
+
             }
         });
 
         manager.setStackFrom(StackFrom.Top);
-        manager.setSwipeThreshold(0.5f);
-        manager.setSwipeableMethod(SwipeableMethod.Manual);
+        manager.setSwipeableMethod(SwipeableMethod.Automatic);
         manager.setDirections(Direction.HORIZONTAL);
-        manager.setCanScrollHorizontal(false);
-        manager.setCanScrollVertical(false);
         cardStackView.setLayoutManager(manager);
-        CardStackAdapter cardStackAdapter = new CardStackAdapter(getApplicationContext(), cardStackView, populateFlashcards(), gameplay, manager);
+        CardStackAdapter cardStackAdapter = new CardStackAdapter(this, cardStackView, populateDummyFlashcards(), gameplay, manager);
         cardStackView.setAdapter(cardStackAdapter);
 
 
     }
 
+    void setTxtKnow(String text) {
+        txtKnow.setText(text);
+    }
 
-    private ArrayList<FlashcardModel> populateFlashcards() {
+    void setTxtDontKnow(String text) {
+        txtDontKnow.setText(text);
+    }
+
+
+    private ArrayList<FlashcardModel> populateDummyFlashcards() {
         ArrayList<FlashcardModel> flashCards = new ArrayList<FlashcardModel>();
-        flashCards.add(new FlashcardModel("10", "A", "", ""));
-        flashCards.add(new FlashcardModel("11", "B", "", ""));
-        flashCards.add(new FlashcardModel("12", "A", "", ""));
+        FlashcardModel dummyFlashcard = new FlashcardModel("0", "Dummy", "", "");
+        flashCards.add(dummyFlashcard);
+        flashCards.add(dummyFlashcard);
+        flashCards.add(dummyFlashcard);
+        flashCards.add(dummyFlashcard);
+        flashCards.add(dummyFlashcard);
         return flashCards;
     }
 
@@ -133,11 +132,10 @@ public class CardsActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://lsatmaxadmin.us/interview/loadDataFC.php";
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray flashcards = new JSONArray(response);
-                Log.e("sdzsbdskh", "response received");
+                Log.i("loadQuestions()", "Response Received");
                 for(int i=0; i<flashcards.length(); i++) {
 
                     JSONObject flashcard = flashcards.getJSONObject(i);
@@ -146,13 +144,11 @@ public class CardsActivity extends AppCompatActivity {
                     String back_text = flashcard.getString("back_text");
                     String category = flashcard.getString("category");
 
-                    //Log.e("ssfsf", id + " " + front_text);
-
                     FlashcardModel flashcardModel = new FlashcardModel(id, category, front_text, back_text);
                     allFlashcards.add(flashcardModel);
                 }
 
-                CardStackLayoutManager manager = new CardStackLayoutManager(getApplicationContext(), new CardStackListener() {
+                CardStackLayoutManager manager = new CardStackLayoutManager(this, new CardStackListener() {
                     @Override
                     public void onCardDragging(Direction direction, float ratio) {
 
@@ -160,16 +156,6 @@ public class CardsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCardSwiped(Direction direction) {
-                        if(direction == Direction.Left) {
-                            gameplay.incrementDontKnow();
-                            txtDontKnow.setText("" + gameplay.getDontKnow());
-
-                        }
-                        else if(direction == Direction.Right) {
-                            gameplay.incrementKnow();
-                            txtKnow.setText("" + gameplay.getKnow());
-                        }
-
                     }
 
                     @Override
@@ -212,7 +198,7 @@ public class CardsActivity extends AppCompatActivity {
 
                 manager.setStackFrom(StackFrom.Top);
                 manager.setSwipeThreshold(0.5f);
-                manager.setSwipeableMethod(SwipeableMethod.Manual);
+                manager.setSwipeableMethod(SwipeableMethod.Automatic);
                 manager.setDirections(Direction.HORIZONTAL);
 //                manager.setCanScrollHorizontal(false);
 //                manager.setCanScrollVertical(false);

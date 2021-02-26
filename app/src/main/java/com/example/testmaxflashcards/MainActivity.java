@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent chooseIntent = new Intent(v.getContext(), ChooseActivity.class);
                 v.getContext().startActivity(chooseIntent);
-                finish();
             }
         });
 
