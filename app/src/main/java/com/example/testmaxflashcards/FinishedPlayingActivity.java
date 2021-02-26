@@ -49,6 +49,13 @@ public class FinishedPlayingActivity extends AppCompatActivity {
             scores_text += s + "\n\n";
         }
 
-        dispScore.setText(scores_text);
+        if (scores_text.length() > 0) {
+            dispScore.setText(scores_text);
+        }
+        else {
+            dispScore.setText("NONE");
+        }
+
+
     }
 }
