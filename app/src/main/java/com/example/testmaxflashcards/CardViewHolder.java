@@ -9,41 +9,55 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wajahatkarim3.easyflipview.EasyFlipView;
-import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 
 public class CardViewHolder extends RecyclerView.ViewHolder {
+    /**
+     *
+     * View Holder for CardStackView.
+     *
+     * Contains elements present in the card view.
+     * easyFlipView: EasyFlipView - Flippable Card View from https://github.com/wajahatkarim3/EasyFlipView
+     * btnYes: Button - Button to click if the student knows the answer
+     * btnNo: Button - Button to click of the student does not know the answer.
+     *
+     */
+    private EasyFlipView easyFlipView;
+    private TextView front_text, back_text;
+    private Button btnYes, btnNo;
 
-    EasyFlipView easyFlipView;
-    Gameplay gameplay;
-    TextView front_text, back_text, txtKnow, txtDontKnow;
-    Button btnYes, btnNo;
+    public EasyFlipView getEasyFlipView() {
+        return easyFlipView;
+    }
 
-    public CardViewHolder(@NonNull View itemView, CardStackLayoutManager manager, Gameplay gameplay) {
+    public TextView getFront_text() {
+        return front_text;
+    }
+
+    public TextView getBack_text() {
+        return back_text;
+    }
+
+    public Button getBtnYes() {
+        return btnYes;
+    }
+
+    public Button getBtnNo() {
+        return btnNo;
+    }
+
+    public CardViewHolder(@NonNull View itemView) {
         super(itemView);
         easyFlipView = itemView.findViewById(R.id.easyFlipView);
-        this.gameplay = gameplay;
         front_text = easyFlipView.findViewById(R.id.frontText);
         back_text = easyFlipView.findViewById(R.id.backText);
         btnNo = easyFlipView.findViewById(R.id.btnNo);
         btnYes = easyFlipView.findViewById(R.id.btnYes);
-//
-//        txtKnow = easyFlipView.findViewById(R.id.txtCorrect);
-//        txtDontKnow = easyFlipView.findViewById(R.id.txtWrong);
 
-
-        easyFlipView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                easyFlipView.flipTheView();
-
-                Log.e("Flipping the view", "flipping the view");
-                easyFlipView.setFlipEnabled(false);
-            }
+        easyFlipView.setOnClickListener(v -> {
+            easyFlipView.flipTheView();
+            //Log.e("Flipping the view", "flipping the view");
+            easyFlipView.setFlipEnabled(false);
         });
-
-
-
-
     }
 
 }

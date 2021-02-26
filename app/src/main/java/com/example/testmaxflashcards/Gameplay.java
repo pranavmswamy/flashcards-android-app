@@ -5,6 +5,16 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 
 public class Gameplay {
+    /**
+     * Singleton Class to keep track of each session of training with flashcards.
+     *
+     * Member Variables:
+     * singleton: Gameplay - singleton object
+     * know: int - count of cards gotten right
+     * dontKnow: int - count of cards gotten wrong
+     * selection: String - current category selection being played (ALL, IDQ or SN)
+     */
+
     private static Gameplay singleton;
     private int know = 0;
     private int dontKnow = 0;
@@ -44,6 +54,11 @@ public class Gameplay {
         return dontKnow;
     }
 
+    /**
+     * Writes current score at the end of a session to disk.
+     * @param sharedPreferences object of Key-Value Read/Write library for Android.
+     * @param editor Editor object to write key-value pair to permanent storage.
+     */
     public void recordScore(SharedPreferences sharedPreferences, SharedPreferences.Editor editor) {
         int i = 0;
         while(sharedPreferences.contains("score" + i)) {
@@ -61,11 +76,17 @@ public class Gameplay {
             gameSelection = "ALL";
         }
 
+        // record score as key-value pair
         editor.putString("score" + i, gameSelection + ": " + know + "/" + (know + dontKnow));
         editor.putInt("last_score_idx", i);
         editor.commit();
     }
 
+    /**
+     *
+     * @param sharedPreferences object of Key-Value Read/Write library for Android.
+     * @return Scores of last 5 games (or less).
+     */
     public ArrayList<String> getScores(SharedPreferences sharedPreferences) {
         ArrayList<String> scores = new ArrayList<>();
 

@@ -27,58 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardStackView">
 
-            <!--    <TextView
-                 android:id="@+id/txtSwipeLeft"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginStart="16dp"
-                 android:layout_marginTop="16dp"
-                 android:text="DON'T KNOW IT?"
-                 android:textColor="@color/material_on_surface_disabled"
-                 android:textSize="18sp"
-                 android:textStyle="bold"
-                 android:typeface="sans"
-                 app:layout_constraintStart_toStartOf="parent"
-                 app:layout_constraintTop_toTopOf="parent" />
-
-             <TextView
-                 android:id="@+id/txtSwipeRight"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="16dp"
-                 android:layout_marginEnd="16dp"
-                 android:text="KNOW IT?"
-                 android:textAlignment="textEnd"
-                 android:textColor="@color/material_on_surface_disabled"
-                 android:textSize="18sp"
-                 android:textStyle="bold"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintTop_toTopOf="parent" />
-
-             <TextView
-                 android:id="@+id/textView8"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginStart="16dp"
-                 android:text="SWIPE LEFT"
-                 android:textColor="@android:color/holo_red_dark"
-                 android:textSize="18sp"
-                 android:textStyle="bold"
-                 app:layout_constraintStart_toStartOf="parent"
-                 app:layout_constraintTop_toBottomOf="@+id/txtSwipeLeft" />
-
-             <TextView
-                 android:id="@+id/textView9"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginEnd="16dp"
-                 android:text="SWIPE RIGHT"
-                 android:textAlignment="textEnd"
-                 android:textColor="@android:color/holo_green_dark"
-                 android:textSize="18sp"
-                 android:textStyle="bold"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintTop_toBottomOf="@+id/txtSwipeRight" /> -->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.yuyakaido.android.cardstackview.CardStackView
