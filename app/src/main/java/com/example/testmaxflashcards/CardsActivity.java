@@ -170,57 +170,84 @@ public class CardsActivity extends AppCompatActivity {
 
                     @Override
                     public void onCardAppeared(View view, int position) {
-                        ConstraintLayout constraintLayout = (ConstraintLayout) view;
-                        EasyFlipView easyFlipView = (EasyFlipView) ((ConstraintLayout) view).getChildAt(0);
-                        if(easyFlipView.isFrontSide()) {
-                            Log.e("front view", "aefadf");
-                        }
-                        else if(easyFlipView.isBackSide()) {
-                            Log.e("back view", "aefadf");
-                        }
                     }
 
                     @Override
                     public void onCardDisappeared(View view, int position) {
-                        Log.e("adfa", "" + position);
-                        if(position == allFlashcards.size()-1) {
-                            gameplay.recordScore(sharedPreferences, editor);
-                            gameplay.endGame();
-
-                            Intent finishedPlaying = new Intent(view.getContext(), FinishedPlayingActivity.class);
-                            // put extras to intent?
-                            view.getContext().startActivity(finishedPlaying);
-                            Activity currentActivity = (Activity) view.getContext();
-                            currentActivity.finish();
-                        }
                     }
                 });
 
                 manager.setStackFrom(StackFrom.Top);
-                manager.setSwipeThreshold(0.5f);
                 manager.setSwipeableMethod(SwipeableMethod.Automatic);
+                manager.setVisibleCount(5);
                 manager.setDirections(Direction.HORIZONTAL);
-//                manager.setCanScrollHorizontal(false);
-//                manager.setCanScrollVertical(false);
                 cardStackView.setLayoutManager(manager);
 
-                CardStackAdapter cardStackAdapter2 = new CardStackAdapter(this, cardStackView, allFlashcards, gameplay, manager);
-                cardStackView.setAdapter(cardStackAdapter2);
-                cardStackAdapter2.notifyDataSetChanged();
+                Log.d("allF", "" + allFlashcards);
+                Log.d("selection", selection);
+                CardStackAdapter flashcardAdapter = null;
+                if(selection.equals("ALL")) {
+                    flashcardAdapter = new CardStackAdapter(this, cardStackView, allFlashcards, gameplay, manager);
+                }
+                else {
+                    ArrayList<FlashcardModel> filtered = getFilteredFlashcards(allFlashcards, selection);
+                    flashcardAdapter = new CardStackAdapter(this, cardStackView, filtered, gameplay, manager);
+                }
+
+                cardStackView.setAdapter(flashcardAdapter);
+                flashcardAdapter.notifyDataSetChanged();
 
                 gameplay.startGame();
 
             } catch (JSONException e) {
+                Log.e("loadQuestions()", "JSON Parse Error");
                 e.printStackTrace();
             }
 
 
         }, error -> {
-            Log.e("sfsgsgs", "Error");
-            Log.e("Sdffss", error.getMessage());
+            Log.e("loadQuestions()", "Error Receiving data");
+            Log.e("loadQuestions()", error.getMessage());
         });
-        queue.add(stringRequest);
 
-        Log.e("Ssfs", "request added to queue");
+        queue.add(stringRequest);
     }
+
+
+    public ArrayList<FlashcardModel> getFilteredFlashcards(ArrayList<FlashcardModel> allFlashcards, String selection) {
+
+        ArrayList<FlashcardModel> filtered = new ArrayList<>();
+
+        if(selection.equals("SN")) {
+            // filter for SN
+            for(int i=0; i<allFlashcards.size(); i++) {
+                if(allFlashcards.get(i).getCategory().equals("Sufficient & Necessary Conditions")) {
+                    filtered.add(allFlashcards.get(i));
+                }
+            }
+        }
+        else {
+            // filter for IDQ
+            for(int i=0; i<allFlashcards.size(); i++) {
+                if(allFlashcards.get(i).getCategory().equals("Identify the Question Type")) {
+                    filtered.add(allFlashcards.get(i));
+                }
+            }
+        }
+
+        Log.d("filtered", ""  + filtered);
+
+        if(filtered.size() > 0) {
+
+            return filtered;
+        }
+        else {
+            // return empty flashcards
+            return populateDummyFlashcards();
+        }
+
+    }
+
+
+
 }
